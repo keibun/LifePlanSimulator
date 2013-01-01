@@ -1,0 +1,17 @@
+/* 
+    Document   : prototype
+    Created on : 2013/01/01, 20:43:53
+    Author     : hiro
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+.chart-series-line {    
+    -fx-stroke-width: 2px;
+    -fx-effect: null; 
+}
+/*
+.default-color0.chart-series-line { -fx-stroke: #e9967a; -fx-stroke-width: 1px;}
+.default-color1.chart-series-line { -fx-stroke: #f0e68c; -fx-stroke-width: 1px;}
+.default-color2.chart-series-line { -fx-stroke: #dda0dd; -fx-stroke-width: 1px;}
+*/
