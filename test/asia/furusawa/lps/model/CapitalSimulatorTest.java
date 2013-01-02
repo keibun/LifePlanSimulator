@@ -77,7 +77,7 @@ public class CapitalSimulatorTest {
         simulator.addLPSEvent(event);
         List<CapitalSummaryTrack> summaries = simulator.simulate();
         assertEquals(summaries.size(), 6);
-        assertEquals(summaries.get(summaries.size()-1).getAssetCash(),simulator.INITIAL_ASSET_CASH - 112000*3);
+        assertEquals(summaries.get(summaries.size()-1).getAssetCash(),simulator.INITIAL_ASSET_CASH - RentalHouseEvent.OBERGE_RENTAL_HOUSE_VALUE*3);
     }
     
     @Test

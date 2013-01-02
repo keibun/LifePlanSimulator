@@ -25,6 +25,7 @@ public class CapitalSimulator {
     private EmploymentEvent employment;
     private RentalHouseEvent rentalHouse;
     private RentalHelpEvent rentalHelp;
+    private HouseLoanEvent houseLoan;
     
     public List<CapitalSummaryTrack> simulate() {
         List<CapitalSummaryTrack> tracks = new ArrayList<>();
@@ -101,8 +102,24 @@ public class CapitalSimulator {
                 }
             }
             
-
-            
+//            if ( houseLoan != null ){
+//                if (tracks.isEmpty()){
+//                CapitalSummaryTrack prevTrack = tracks.get(tracks.size()-1);
+//                int houseLoanValue = houseLoan.calcHouseLoanValue(prevTrack.getHouseLoanRest());
+//                track.setCommulativeHouseLoan(prevTrack.getCommulativeHouseLoan()+houseLoanValue);
+//                   
+//               }
+//               else {
+//                track.setCommulativeHouseLoan();
+//                   
+//               }                           
+//            }
+//            else {
+//                 if (!tracks.isEmpty()){
+//                   track.setCommulativeHouseLoan(tracks.get(tracks.size()-1).getCommulativeHouseLoan());
+//         
+//                 }
+//            }            
             
             track.setAssetCash(newCash);
             tracks.add(track);
@@ -136,5 +153,21 @@ public class CapitalSimulator {
     }
     public RentalHelpEvent getRentalHelp(){
         return this.rentalHelp;
+    }
+
+
+
+    /**
+     * @return the houseLoan
+     */
+    public HouseLoanEvent getHouseLoan() {
+        return houseLoan;
+    }
+
+    /**
+     * @param houseLoan the houseLoan to set
+     */
+    public void setHouseLoan(HouseLoanEvent houseLoan) {
+        this.houseLoan = houseLoan;
     }
 }

@@ -110,7 +110,7 @@ public class LifePlanSimulatorPrototype extends Application {
         simulator.addLPSEvent(event);
         return simulator.simulate();        
     }
-        public List<CapitalSummaryTrack> createTestSummaries2(){
+        public List<CapitalSummaryTrack> createTestSummariesHome(){
         CapitalSimulator simulator = new CapitalSimulator();
         simulator.setDuration(DateUtil.getDateByMonth(2013, 1), DateUtil.getDateByMonth(2013+1, 1)); // 6 months
         LPSEvent event = new EmploymentEvent(DateUtil.getDateByMonth(2013, 1));
