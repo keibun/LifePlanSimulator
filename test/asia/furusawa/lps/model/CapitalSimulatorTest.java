@@ -107,6 +107,19 @@ public class CapitalSimulatorTest {
         assertEquals(CapitalSimulator.INITIAL_ASSET_CASH   - RentalHouseEvent.OBERGE_RENTAL_HOUSE_VALUE*3 + RentalHelpEvent.RENTAL_HELP_NSSOL *3 ,summaries.get(summaries.size()-1).getAssetCash());
        
     }
+    @Test
+    public void testSimulationHouseLoan(){
+           CapitalSimulator simulator = new CapitalSimulator();
+        simulator.setDuration(createFromDate(), DateUtil.getDateByMonth(2014, 4)); // 6 months
+        final int initial = 1000*10000;
+        LPSEvent event = new HouseLoanEvent(DateUtil.getDateByMonth(2013,3), HouseLoanEvent.LoanType.EQUAL_BODY, initial, 0.1, 1);;
+
+        simulator.addLPSEvent(event);
+        List<CapitalSummaryTrack> summaries = simulator.simulate();
+        assertEquals(17,summaries.size() );
+        assertEquals(CapitalSimulator.INITIAL_ASSET_CASH - 10541661 -1  ,summaries.get(summaries.size()-1).getAssetCash());
+             
+    }
     private Date createFromDate(){
                 Calendar calendar = Calendar.getInstance();
         calendar.set(2013, 0, 1, 0, 0, 0);

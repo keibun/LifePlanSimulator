@@ -120,7 +120,15 @@ public class CapitalSimulator {
 //         
 //                 }
 //            }            
-            
+            if (houseLoan != null) {
+                int payment = houseLoan.calcPaymentByMonth();
+                newCash -= payment;
+                //logger.info(new Integer(newCash).toString());
+                //logger.info("\t"+new Integer(payment).toString());
+                houseLoan.payByMonth();
+                track.setCommulativeHouseLoan(houseLoan.getCommulativePayedValue());
+                
+            }
             track.setAssetCash(newCash);
             tracks.add(track);
                         
