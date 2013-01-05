@@ -22,9 +22,9 @@ public class CapitalSummaryTrack {
     private int commulativeHouseLoan; // 累積住宅ローン
     private int education; // 教育費
     private int commulativeEducation; // 累積教育費
-    private int commodity; // 生活費（食費・水道費・光熱費・通信費
-    private int commulativeCommodity; // 累積生活費
-    private int assetCash;
+    private int assetCash; // 現在現金総額
+    private int lifeline; // 生活費（食費・水道費・光熱費・通信費)
+    private int commulativeLifeline; // 累積生活費
     
 //    public List<Asset> getAssets() {
 //        return assets;
@@ -153,33 +153,6 @@ public class CapitalSummaryTrack {
         this.commulativeEducation = commulativeEducation;
     }
 
-    /**
-     * @return the commodity
-     */
-    public int getCommodity() {
-        return commodity;
-    }
-
-    /**
-     * @param commodity the commodity to set
-     */
-    public void setCommodity(int commodity) {
-        this.commodity = commodity;
-    }
-
-    /**
-     * @return the commulativeCommodity
-     */
-    public int getCommulativeCommodity() {
-        return commulativeCommodity;
-    }
-
-    /**
-     * @param commulativeCommodity the commulativeCommodity to set
-     */
-    public void setCommulativeCommodity(int commulativeCommodity) {
-        this.commulativeCommodity = commulativeCommodity;
-    }
 
     /**
      * @return the assetCash

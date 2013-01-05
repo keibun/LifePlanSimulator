@@ -26,6 +26,7 @@ public class CapitalSimulator {
     private RentalHouseEvent rentalHouse;
     private RentalHelpEvent rentalHelp;
     private HouseLoanEvent houseLoan;
+    private LifelineEvent lifeline;
     
     public List<CapitalSummaryTrack> simulate() {
         List<CapitalSummaryTrack> tracks = new ArrayList<>();
@@ -177,5 +178,9 @@ public class CapitalSimulator {
      */
     public void setHouseLoan(HouseLoanEvent houseLoan) {
         this.houseLoan = houseLoan;
+    }
+
+    void setLifeline(LifelineEvent aThis) {
+        this.lifeline = aThis;
     }
 }
