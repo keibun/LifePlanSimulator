@@ -130,6 +130,11 @@ public class CapitalSimulator {
                 track.setCommulativeHouseLoan(houseLoan.getCommulativePayedValue());
                 
             }
+            if (lifeline != null) {
+                newCash -= lifeline.getLifelineValueByMonth();
+                lifeline.payByMonth();
+                
+            }
             track.setAssetCash(newCash);
             tracks.add(track);
                         

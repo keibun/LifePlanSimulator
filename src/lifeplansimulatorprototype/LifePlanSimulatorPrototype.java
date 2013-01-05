@@ -10,6 +10,7 @@ import asia.furusawa.lps.model.CapitalSummaryTrack;
 import asia.furusawa.lps.model.EmploymentEvent;
 import asia.furusawa.lps.model.HouseLoanEvent;
 import asia.furusawa.lps.model.LPSEvent;
+import asia.furusawa.lps.model.LifelineEvent;
 import asia.furusawa.lps.model.RentalHelpEvent;
 import asia.furusawa.lps.model.RentalHouseEvent;
 import asia.furusawa.lps.util.DateUtil;
@@ -73,21 +74,21 @@ public class LifePlanSimulatorPrototype extends Application {
         series.setName("現金");
         XYChart.Series<Number, Number> rentalSeries = new XYChart.Series<>();
         rentalSeries.setName("賃貸総額");
-          XYChart.Series<Number, Number> employmentSeries = new XYChart.Series<>();
-        employmentSeries.setName("給与総額");
+         // XYChart.Series<Number, Number> employmentSeries = new XYChart.Series<>();
+      //  employmentSeries.setName("給与総額");
       
         int totalCount = 0;
         List<CapitalSummaryTrack> tracks = createTestSummaries();
         for(CapitalSummaryTrack e: tracks){
             series.getData().add(new XYChart.Data<Number, Number>(totalCount, e.getAssetCash()));
             rentalSeries.getData().add(new XYChart.Data<Number, Number>(totalCount, e.getCommulativeRentalFee()));
-            employmentSeries.getData().add(new XYChart.Data<Number, Number>(totalCount, e.getCommulativeSalary()));
+         //   employmentSeries.getData().add(new XYChart.Data<Number, Number>(totalCount, e.getCommulativeSalary()));
             totalCount++;  
         }
         //lc.setStyle("-fx-stroke-width: 1");
         lc.getData().add(series);
         lc.getData().add(rentalSeries);
-        lc.getData().add(employmentSeries);
+       // lc.getData().add(employmentSeries);
         return lc;
     }
 protected LineChart<Number, Number> createChartHome25() {
@@ -111,21 +112,21 @@ protected LineChart<Number, Number> createChartHome25() {
         series.setName("現金");
         XYChart.Series<Number, Number> homeSeries = new XYChart.Series<>();
         homeSeries.setName("住宅ローン総額");
-          XYChart.Series<Number, Number> employmentSeries = new XYChart.Series<>();
-        employmentSeries.setName("給与総額");
+      //    XYChart.Series<Number, Number> employmentSeries = new XYChart.Series<>();
+       // employmentSeries.setName("給与総額");
       
         int totalCount = 0;
         List<CapitalSummaryTrack> tracks = createTestSummariesHome(25);
         for(CapitalSummaryTrack e: tracks){
             series.getData().add(new XYChart.Data<Number, Number>(totalCount, e.getAssetCash()));
             homeSeries.getData().add(new XYChart.Data<Number, Number>(totalCount, e.getCommulativeHouseLoan()));
-            employmentSeries.getData().add(new XYChart.Data<Number, Number>(totalCount, e.getCommulativeSalary()));
+            //employmentSeries.getData().add(new XYChart.Data<Number, Number>(totalCount, e.getCommulativeSalary()));
             totalCount++;  
         }
         //lc.setStyle("-fx-stroke-width: 1");
         lc.getData().add(series);
         lc.getData().add(homeSeries);
-        lc.getData().add(employmentSeries);
+       // lc.getData().add(employmentSeries);
         return lc;
     }
 protected LineChart<Number, Number> createChartHome15() {
@@ -149,21 +150,21 @@ protected LineChart<Number, Number> createChartHome15() {
         series.setName("現金");
         XYChart.Series<Number, Number> homeSeries = new XYChart.Series<>();
         homeSeries.setName("住宅ローン総額");
-          XYChart.Series<Number, Number> employmentSeries = new XYChart.Series<>();
-        employmentSeries.setName("給与総額");
+    //      XYChart.Series<Number, Number> employmentSeries = new XYChart.Series<>();
+      //  employmentSeries.setName("給与総額");
       
         int totalCount = 0;
         List<CapitalSummaryTrack> tracks = createTestSummariesHome(15);
         for(CapitalSummaryTrack e: tracks){
             series.getData().add(new XYChart.Data<Number, Number>(totalCount, e.getAssetCash()));
             homeSeries.getData().add(new XYChart.Data<Number, Number>(totalCount, e.getCommulativeHouseLoan()));
-            employmentSeries.getData().add(new XYChart.Data<Number, Number>(totalCount, e.getCommulativeSalary()));
+           // employmentSeries.getData().add(new XYChart.Data<Number, Number>(totalCount, e.getCommulativeSalary()));
             totalCount++;  
         }
         //lc.setStyle("-fx-stroke-width: 1");
         lc.getData().add(series);
         lc.getData().add(homeSeries);
-        lc.getData().add(employmentSeries);
+        //lc.getData().add(employmentSeries);
         return lc;
     }        
     
@@ -192,6 +193,9 @@ protected LineChart<Number, Number> createChartHome15() {
         
         event = new RetirementEvent(DateUtil.getDateByMonth(2013+65-36, 11));
         simulator.addLPSEvent(event);
+        
+        event = new LifelineEvent(DateUtil.getDateByMonth(2013, 1));
+        simulator.addLPSEvent(event);
         return simulator.simulate();        
     }
 
@@ -207,6 +211,9 @@ protected LineChart<Number, Number> createChartHome15() {
         event  = new HouseLoanEvent(DateUtil.getDateByMonth(2013, 1), HouseLoanEvent.LoanType.EQUAL_BODY, 4000*10000, 2.675/100, paymentInterval);
         simulator.addLPSEvent(event);
         event = new RetirementEvent(DateUtil.getDateByMonth(2013+65-36, 11));
+        simulator.addLPSEvent(event);
+
+        event = new LifelineEvent(DateUtil.getDateByMonth(2013, 1));
         simulator.addLPSEvent(event);
 
         return simulator.simulate();           

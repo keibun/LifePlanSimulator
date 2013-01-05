@@ -120,6 +120,17 @@ public class CapitalSimulatorTest {
         assertEquals(CapitalSimulator.INITIAL_ASSET_CASH - 10541661 -1  ,summaries.get(summaries.size()-1).getAssetCash());
              
     }
+    @Test
+    public void testSimulationLifeline(){
+           CapitalSimulator simulator = new CapitalSimulator();
+        simulator.setDuration(createFromDate(), DateUtil.getDateByMonth(2013, 5)); // 6 months
+        LPSEvent event = new LifelineEvent(createFromDate());
+        simulator.addLPSEvent(event);
+        List<CapitalSummaryTrack> summaries = simulator.simulate();
+        assertEquals(summaries.size(), 6);
+        assertEquals(CapitalSimulator.INITIAL_ASSET_CASH   - 170000*6, summaries.get(summaries.size()-1).getAssetCash());
+      
+    }
     private Date createFromDate(){
                 Calendar calendar = Calendar.getInstance();
         calendar.set(2013, 0, 1, 0, 0, 0);
