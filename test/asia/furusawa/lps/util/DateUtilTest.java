@@ -43,10 +43,17 @@ public class DateUtilTest {
     @Test
     public void testGetDateByMonth() {
         int year = 2013;
-        int month = 0;
+        int month = 1;
         //Date expResult = null;
         Date result = DateUtil.getDateByMonth(year, month);
         assertEquals("Tue Jan 01 00:00:00 JST 2013", result.toString());
 
+    }
+    @Test
+    public void testGetYearByTerm(){
+        Date targetDate = DateUtil.getDateByMonth(2013, 1);
+        System.out.println(targetDate);
+        targetDate = DateUtil.getDateByMonth(2013, 0);
+                System.out.println(targetDate);
     }
 }

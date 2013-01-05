@@ -54,7 +54,7 @@ public class CapitalSimulatorTest {
     @Test
     public void testSimulateEmploymentEvent(){
         CapitalSimulator simulator = new CapitalSimulator();
-        simulator.setDuration(createFromDate(), DateUtil.getDateByMonth(2013, 2));// 3 months
+        simulator.setDuration(createFromDate(), DateUtil.getDateByMonth(2013, 3));// 3 months
         EmploymentEvent event = new EmploymentEvent(createFromDate());
         simulator.addLPSEvent(event);
         List<CapitalSummaryTrack> summaries = simulator.simulate();
@@ -72,24 +72,24 @@ public class CapitalSimulatorTest {
     @Test
     public void testSimulateRentalHouseEvent(){
         CapitalSimulator simulator = new CapitalSimulator();
-        simulator.setDuration(createFromDate(), DateUtil.getDateByMonth(2013, 5)); // 6 months
-        RentalHouseEvent event = new RentalHouseEvent(DateUtil.getDateByMonth(2013, 3));
+        simulator.setDuration(createFromDate(), DateUtil.getDateByMonth(2013, 6)); // 6 months
+        RentalHouseEvent event = new RentalHouseEvent(DateUtil.getDateByMonth(2013, 4));
         simulator.addLPSEvent(event);
         List<CapitalSummaryTrack> summaries = simulator.simulate();
-        assertEquals(summaries.size(), 6);
+        assertEquals(6,summaries.size());
         assertEquals(summaries.get(summaries.size()-1).getAssetCash(),simulator.INITIAL_ASSET_CASH - RentalHouseEvent.OBERGE_RENTAL_HOUSE_VALUE*3);
     }
     
     @Test
     public void testSimulationEmploymentAndHouseEvent(){
         CapitalSimulator simulator = new CapitalSimulator();
-        simulator.setDuration(createFromDate(), DateUtil.getDateByMonth(2013, 5)); // 6 months
+        simulator.setDuration(createFromDate(), DateUtil.getDateByMonth(2013, 6)); // 6 months
         LPSEvent event = new EmploymentEvent(createFromDate());
         simulator.addLPSEvent(event);
-        event = new RentalHouseEvent(DateUtil.getDateByMonth(2013, 3));
+        event = new RentalHouseEvent(DateUtil.getDateByMonth(2013, 4));
         simulator.addLPSEvent(event);
         List<CapitalSummaryTrack> summaries = simulator.simulate();
-        assertEquals(summaries.size(), 6);
+        assertEquals(6, summaries.size());
         assertEquals(CapitalSimulator.INITIAL_ASSET_CASH + EmploymentEvent.SALALY_BY_MONTH * 6  - RentalHouseEvent.OBERGE_RENTAL_HOUSE_VALUE*3,summaries.get(summaries.size()-1).getAssetCash());
         
     }
@@ -97,10 +97,10 @@ public class CapitalSimulatorTest {
     @Test
     public void testSimulationRentalHelp(){
          CapitalSimulator simulator = new CapitalSimulator();
-        simulator.setDuration(createFromDate(), DateUtil.getDateByMonth(2013, 5)); // 6 months
+        simulator.setDuration(createFromDate(), DateUtil.getDateByMonth(2013, 6)); // 6 months
         LPSEvent event = new RentalHelpEvent(createFromDate());
         simulator.addLPSEvent(event);
-        event = new RentalHouseEvent(DateUtil.getDateByMonth(2013, 3));
+        event = new RentalHouseEvent(DateUtil.getDateByMonth(2013, 4));
         simulator.addLPSEvent(event);
         List<CapitalSummaryTrack> summaries = simulator.simulate();
         assertEquals(summaries.size(), 6);
@@ -110,9 +110,9 @@ public class CapitalSimulatorTest {
     @Test
     public void testSimulationHouseLoan(){
            CapitalSimulator simulator = new CapitalSimulator();
-        simulator.setDuration(createFromDate(), DateUtil.getDateByMonth(2014, 4)); // 6 months
+        simulator.setDuration(createFromDate(), DateUtil.getDateByMonth(2014, 5)); // 6 months
         final int initial = 1000*10000;
-        LPSEvent event = new HouseLoanEvent(DateUtil.getDateByMonth(2013,3), HouseLoanEvent.LoanType.EQUAL_BODY, initial, 0.1, 1);;
+        LPSEvent event = new HouseLoanEvent(DateUtil.getDateByMonth(2013,4), HouseLoanEvent.LoanType.EQUAL_BODY, initial, 0.1, 1);;
 
         simulator.addLPSEvent(event);
         List<CapitalSummaryTrack> summaries = simulator.simulate();
@@ -123,7 +123,7 @@ public class CapitalSimulatorTest {
     @Test
     public void testSimulationLifeline(){
            CapitalSimulator simulator = new CapitalSimulator();
-        simulator.setDuration(createFromDate(), DateUtil.getDateByMonth(2013, 5)); // 6 months
+        simulator.setDuration(createFromDate(), DateUtil.getDateByMonth(2013, 6)); // 6 months
         LPSEvent event = new LifelineEvent(createFromDate());
         simulator.addLPSEvent(event);
         List<CapitalSummaryTrack> summaries = simulator.simulate();
@@ -134,7 +134,7 @@ public class CapitalSimulatorTest {
     private Date createFromDate(){
                 Calendar calendar = Calendar.getInstance();
         calendar.set(2013, 0, 1, 0, 0, 0);
-
+       // System.out.println(calendar.getTime());
         return calendar.getTime();
     }
         private Date createToDateMax(){
