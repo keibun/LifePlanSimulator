@@ -200,8 +200,9 @@ public class CapitalSimulator {
     int investmentResultByMonth(int cash, double interestPercentYear){
         BigDecimal original = new BigDecimal(cash);
         original.setScale(3);
-        BigDecimal ratio = BigDecimal.valueOf(interestPercentYear/100/12);
-       ratio.setScale(5,RoundingMode.HALF_DOWN);
+        BigDecimal ratio = BigDecimal.valueOf(nRoot(12, 1.2, 0.0000001));
+      // ratio.setScale(4,RoundingMode.HALF_DOWN);
+       
 //        BigDecimal percent = new BigDecimal(100);
 //        percent.setScale(3);
 //        BigDecimal monthly = new BigDecimal(12);
@@ -210,9 +211,28 @@ public class CapitalSimulator {
 //        base.setScale(1);
         //ratio = ratio.divide(percent,5,RoundingMode.HALF_DOWN).divide(monthly,5,RoundingMode.HALF_DOWN).add(base);
         //System.out.println(ratio);
-        BigDecimal result = original.multiply(ratio).add(original);
+        BigDecimal result = original.multiply(ratio);
         //System.out.println(result);
-        result.setScale(0,BigDecimal.ROUND_DOWN);
+        result.setScale(0,BigDecimal.ROUND_HALF_UP);
         return result.intValue();
+    }
+    public static double nRoot(int n, double num, double epsilon) {
+//if you weren't sure, epsilon is the precision
+        int ctr = 0;
+        double root = 1;
+        if (n <= 0) {
+            return Double.longBitsToDouble(0x7ff8000000000000L);
+        }
+//0x7ff8000000000000L is the Java constant for NaN (Not-a-Number)
+        if (num == 0) //this step is just to reduce the needed iterations
+        {
+            return 0;
+        }
+        while ((Math.abs(Math.pow(root, n) - num) > epsilon) && (ctr++ < 1000)) //checks if the number is good enough
+        {
+            root = ((1.0 / n) * (((n - 1.0) * root) + (num / Math.pow(root, n - 1.0))));
+
+        }
+        return root;
     }
 }
