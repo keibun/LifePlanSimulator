@@ -46,9 +46,13 @@ public class ChildTest {
         //System.out.println("getAge");
         Date current = DateUtil.getDateByMonth(2013, 1);
         Child instance = new Child(DateUtil.getDateByMonth(2009, 5));
-        int expResult = 3;
-        int result = instance.getAge(current);
-        assertEquals(expResult, result);
+
+
+        assertEquals(3, instance.getAge(current));
+        
+        current = DateUtil.getDateByMonth(2013, 4);
+
+        assertEquals(4, instance.getAge(current));
         // TODO review the generated test code and remove the default call to fail.
 
     }

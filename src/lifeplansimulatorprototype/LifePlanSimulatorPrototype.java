@@ -7,6 +7,7 @@ package lifeplansimulatorprototype;
 import asia.furusawa.lps.model.RetirementEvent;
 import asia.furusawa.lps.model.CapitalSimulator;
 import asia.furusawa.lps.model.CapitalSummaryTrack;
+import asia.furusawa.lps.model.EducationEvent;
 import asia.furusawa.lps.model.EmploymentEvent;
 import asia.furusawa.lps.model.HouseLoanEvent;
 import asia.furusawa.lps.model.LPSEvent;
@@ -54,7 +55,7 @@ public class LifePlanSimulatorPrototype extends Application {
         primaryStage.show();
     }
     protected LineChart<Number, Number> createChart() {
-        final NumberAxis xAxis = new NumberAxis("経過年",0,36*12,12);
+        final NumberAxis xAxis = new NumberAxis("経過年",0,(1976+65-2013)*12,12);
         
         final NumberAxis yAxis = new NumberAxis();
         final LineChart<Number, Number> lc = new LineChart<>(xAxis, yAxis);
@@ -92,7 +93,7 @@ public class LifePlanSimulatorPrototype extends Application {
         return lc;
     }
 protected LineChart<Number, Number> createChartHome25() {
-        final NumberAxis xAxis = new NumberAxis("経過年",0,36*12,12);
+        final NumberAxis xAxis = new NumberAxis("経過年",0,(1976+65-2013)*12,12);
         
         final NumberAxis yAxis = new NumberAxis();
         final LineChart<Number, Number> lc = new LineChart<>(xAxis, yAxis);
@@ -130,7 +131,7 @@ protected LineChart<Number, Number> createChartHome25() {
         return lc;
     }
 protected LineChart<Number, Number> createChartHome15() {
-        final NumberAxis xAxis = new NumberAxis("経過年",0,36*12,12);
+        final NumberAxis xAxis = new NumberAxis("経過年",0,(1976+65-2013)*12,12);
         
         final NumberAxis yAxis = new NumberAxis();
         final LineChart<Number, Number> lc = new LineChart<>(xAxis, yAxis);
@@ -196,6 +197,9 @@ protected LineChart<Number, Number> createChartHome15() {
         
         event = new LifelineEvent(DateUtil.getDateByMonth(2013, 1));
         simulator.addLPSEvent(event);
+        
+        event = new EducationEvent(DateUtil.getDateByMonth(2013, 1));
+        simulator.addLPSEvent(event);
         return simulator.simulate();        
     }
 
@@ -216,6 +220,8 @@ protected LineChart<Number, Number> createChartHome15() {
         event = new LifelineEvent(DateUtil.getDateByMonth(2013, 1));
         simulator.addLPSEvent(event);
 
+        event = new EducationEvent(DateUtil.getDateByMonth(2013, 1));
+        simulator.addLPSEvent(event);
         return simulator.simulate();           
     }
 

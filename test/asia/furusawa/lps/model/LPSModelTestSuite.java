@@ -16,7 +16,11 @@ import org.junit.runners.Suite;
  * @author hiro
  */
 @RunWith(Suite.class)
-@Suite.SuiteClasses({asia.furusawa.lps.model.EmploymentEventTest.class, asia.furusawa.lps.model.CapitalSimulatorTest.class})
+@Suite.SuiteClasses({asia.furusawa.lps.model.EmploymentEventTest.class,
+    asia.furusawa.lps.model.CapitalSimulatorTest.class,
+    asia.furusawa.lps.model.ChildTest.class,
+    HouseLoanEventTest.class,
+    EducationEventTest.class})
 public class LPSModelTestSuite {
 
     @BeforeClass

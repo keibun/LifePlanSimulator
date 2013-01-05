@@ -131,6 +131,17 @@ public class CapitalSimulatorTest {
         assertEquals(CapitalSimulator.INITIAL_ASSET_CASH   - 170000*6, summaries.get(summaries.size()-1).getAssetCash());
       
     }
+    
+    @Test
+    public void testInvestment(){
+        CapitalSimulator sim = new CapitalSimulator();
+        int result = sim.investmentResultByMonth(1000, 20);
+        assertEquals(1016, result);
+        for(int i= 0; i < 11; i++){
+            result = sim.investmentResultByMonth(result, 20);
+        }
+        assertEquals(1212, result);
+    }
     private Date createFromDate(){
                 Calendar calendar = Calendar.getInstance();
         calendar.set(2013, 0, 1, 0, 0, 0);

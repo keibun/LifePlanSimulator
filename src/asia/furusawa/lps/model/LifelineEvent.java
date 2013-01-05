@@ -19,7 +19,7 @@ public class LifelineEvent extends LPSEvent {
     private static final int INNER_FOOD = 60000;
     private static final int OUTER_FOOD = 10000;
     private static final int HIROPON_FOOD = 20000;
-    private static final int OTHERS = 50000;
+    private static final int OTHERS = 74000;
     
     private int commulativeLifelineValue = 0;
     

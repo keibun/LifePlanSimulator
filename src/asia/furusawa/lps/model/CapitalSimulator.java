@@ -4,6 +4,8 @@
  */
 package asia.furusawa.lps.model;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -27,6 +29,7 @@ public class CapitalSimulator {
     private RentalHelpEvent rentalHelp;
     private HouseLoanEvent houseLoan;
     private LifelineEvent lifeline;
+    private EducationEvent education;
     
     public List<CapitalSummaryTrack> simulate() {
         List<CapitalSummaryTrack> tracks = new ArrayList<>();
@@ -138,7 +141,8 @@ public class CapitalSimulator {
             track.setAssetCash(newCash);
             tracks.add(track);
                         
-            cash = newCash; // save for next simulation
+            //cash = investmentResultByMonth(newCash, 2); // save for next simulation
+            cash = newCash;
             calendar.add(CapitalSimulator.DURATION_CALENDAR_UNIT, 1); // next time unit month.
             currentSimulateDate = calendar.getTime(); // next simulation date
             logger.debug(currentSimulateDate.toString());
@@ -187,5 +191,28 @@ public class CapitalSimulator {
 
     void setLifeline(LifelineEvent aThis) {
         this.lifeline = aThis;
+    }
+
+    void setEducation(EducationEvent aThis) {
+        this.education = aThis;
+    }
+    
+    int investmentResultByMonth(int cash, double interestPercentYear){
+        BigDecimal original = new BigDecimal(cash);
+        original.setScale(3);
+        BigDecimal ratio = BigDecimal.valueOf(interestPercentYear/100/12);
+       ratio.setScale(5,RoundingMode.HALF_DOWN);
+//        BigDecimal percent = new BigDecimal(100);
+//        percent.setScale(3);
+//        BigDecimal monthly = new BigDecimal(12);
+//        monthly.setScale(3);
+//        BigDecimal base = new BigDecimal(1);
+//        base.setScale(1);
+        //ratio = ratio.divide(percent,5,RoundingMode.HALF_DOWN).divide(monthly,5,RoundingMode.HALF_DOWN).add(base);
+        //System.out.println(ratio);
+        BigDecimal result = original.multiply(ratio).add(original);
+        //System.out.println(result);
+        result.setScale(0,BigDecimal.ROUND_DOWN);
+        return result.intValue();
     }
 }
