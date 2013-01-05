@@ -30,6 +30,7 @@ public class CapitalSimulator {
     private HouseLoanEvent houseLoan;
     private LifelineEvent lifeline;
     private EducationEvent education;
+    private int invetmentRatio = 0;
     
     public List<CapitalSummaryTrack> simulate() {
         List<CapitalSummaryTrack> tracks = new ArrayList<>();
@@ -138,10 +139,14 @@ public class CapitalSimulator {
                 lifeline.payByMonth();
                 
             }
+            if (education != null) {
+                newCash -= education.getEducationValueByMonth(currentSimulateDate);
+            }
+            newCash = investmentResultByMonth(newCash, this.getInvetmentRatio());
             track.setAssetCash(newCash);
             tracks.add(track);
                         
-            //cash = investmentResultByMonth(newCash, 2); // save for next simulation
+            
             cash = newCash;
             calendar.add(CapitalSimulator.DURATION_CALENDAR_UNIT, 1); // next time unit month.
             currentSimulateDate = calendar.getTime(); // next simulation date
@@ -200,7 +205,7 @@ public class CapitalSimulator {
     int investmentResultByMonth(int cash, double interestPercentYear){
         BigDecimal original = new BigDecimal(cash);
         original.setScale(3);
-        BigDecimal ratio = BigDecimal.valueOf(nRoot(12, 1.2, 0.0000001));
+        BigDecimal ratio = BigDecimal.valueOf(nRoot(12, 1+interestPercentYear/100, 0.0000001));
       // ratio.setScale(4,RoundingMode.HALF_DOWN);
        
 //        BigDecimal percent = new BigDecimal(100);
@@ -234,5 +239,19 @@ public class CapitalSimulator {
 
         }
         return root;
+    }
+
+    /**
+     * @return the invetmentRatio
+     */
+    public int getInvetmentRatio() {
+        return invetmentRatio;
+    }
+
+    /**
+     * @param invetmentRatio the invetmentRatio to set
+     */
+    public void setInvetmentRatio(int invetmentRatio) {
+        this.invetmentRatio = invetmentRatio;
     }
 }

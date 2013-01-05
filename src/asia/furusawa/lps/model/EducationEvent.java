@@ -40,9 +40,15 @@ public class EducationEvent extends LPSEvent{
     public static final int VALUE_UNIV_PUBLIC = 59800;
     public static final int VALUE_UNIV_PRIVATE = 121000;
 
+    private boolean isPrivate = false;
     private static Child[] children = {new Child(DateUtil.getDateByMonth(2009, 5)), new Child(DateUtil.getDateByMonth(2011, 5)), new Child(DateUtil.getDateByMonth(2013, 5))};    
-    public EducationEvent(Date whenOccured){
+    private static Child[] privateChildren = {new Child(DateUtil.getDateByMonth(2009, 5)), new Child(DateUtil.getDateByMonth(2011, 5)), new Child(DateUtil.getDateByMonth(2013, 5))};    
+//    public EducationEvent(Date whenOccured){
+//        super(whenOccured);
+//    }
+        public EducationEvent(Date whenOccured, boolean isPrivate){
         super(whenOccured);
+        this.isPrivate = isPrivate;
     }
     @Override
     public void handle(CapitalSimulator simulator) {
@@ -57,18 +63,33 @@ public class EducationEvent extends LPSEvent{
         return sum;
     }
     public int getEducationValueByMonth(Date current, Child aChild){
-        System.out.format("%s, %s\n", current, aChild.getAge(current));
+       // System.out.format("%s, %s\n", current, aChild.getAge(current));
         int age = aChild.getAge(current);
+//System.out.println("age:"+new Integer(age).toString());
         if (age >= YEAR_START_SCHOOL_KINDER && age <= YEAR_END_SCHOOL_KINDER){
+//            if (isPrivate){
+//             return VALUE_KINDER_PRIVATE;   
+//            }
             return VALUE_KINDER_PUBLIC;
         }
         if (age >= YEAR_START_SCHOOL_ELEMENTARY && age <= YEAR_END_SCHOOL_ELEMENTARY){
+//            if (isPrivate){
+//             return VALUE_ELEMENTARY_PRIVATE;   
+//            }
             return VALUE_ELEMENTARY_PUBLIC;
         }
         if (age >= YEAR_START_SCHOOL_JUNIOR && age <= YEAR_END_SCHOOL_JUNIOR){
+            if (isPrivate){
+//                System.out.println("junior private");
+             return VALUE_JUNIOR_PRIVATE;   
+            }            
+//                            System.out.println("junior public");
             return VALUE_JUNIOR_PUBLIC;
         }
         if (age >= YEAR_START_SCHOOL_HIGH && age <= YEAR_END_SCHOOL_HIGH){
+            if (isPrivate){
+             return VALUE_HIGH_PRIVATE;   
+            }
             return VALUE_HIGH_PUBLIC;
         }
         if (age >= YEAR_START_SCHOOL_BUCHEROR && age <= YEAR_END_SCHOOL_BUCHEROR){
@@ -77,7 +98,7 @@ public class EducationEvent extends LPSEvent{
         if (age >= YEAR_START_SCHOOL_MASTER && age <= YEAR_END_SCHOOL_MASTER){
             return VALUE_UNIV_PUBLIC;
         }
-        
+//System.out.println("edu: return 0")        ;
         return 0;
     }
 }

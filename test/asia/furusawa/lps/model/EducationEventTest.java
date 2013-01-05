@@ -58,7 +58,7 @@ public class EducationEventTest {
     public void testGetEducationValueByMonth() {
         //System.out.println("getEducationValueByMonth");
         Date current = DateUtil.getDateByMonth(2013, 5);
-        EducationEvent instance = new EducationEvent(DateUtil.getDateByMonth(2013, 1));
+        EducationEvent instance = new EducationEvent(DateUtil.getDateByMonth(2013, 1),false);
         
         int result = instance.getEducationValueByMonth(current);
         assertEquals(EducationEvent.VALUE_KINDER_PUBLIC, result);
@@ -70,6 +70,39 @@ public class EducationEventTest {
         current = DateUtil.getDateByMonth(2016, 4);
         result = instance.getEducationValueByMonth(current);
         assertEquals(EducationEvent.VALUE_ELEMENTARY_PUBLIC +EducationEvent.VALUE_KINDER_PUBLIC*1 , result);
+
+        current = DateUtil.getDateByMonth(2021, 4);
+        result = instance.getEducationValueByMonth(current);
+        assertEquals(EducationEvent.VALUE_ELEMENTARY_PUBLIC*3, result);
+
+        current = DateUtil.getDateByMonth(2022, 4);
+        result = instance.getEducationValueByMonth(current);
+        assertEquals(EducationEvent.VALUE_JUNIOR_PUBLIC*1 + EducationEvent.VALUE_ELEMENTARY_PUBLIC*2, result);
+    }
+        @Test
+    public void testGetEducationValueByMonthPrivate() {
+        //System.out.println("getEducationValueByMonth");
+        Date current = DateUtil.getDateByMonth(2013, 5);
+        EducationEvent instance = new EducationEvent(DateUtil.getDateByMonth(2013, 1),true);
         
+        int result = instance.getEducationValueByMonth(current);
+        assertEquals(EducationEvent.VALUE_KINDER_PUBLIC, result);
+
+        current = DateUtil.getDateByMonth(2015, 4);
+        result = instance.getEducationValueByMonth(current);
+        assertEquals(EducationEvent.VALUE_KINDER_PUBLIC*2 , result);
+
+        current = DateUtil.getDateByMonth(2016, 4);
+        result = instance.getEducationValueByMonth(current);
+        assertEquals(EducationEvent.VALUE_ELEMENTARY_PUBLIC +EducationEvent.VALUE_KINDER_PUBLIC*1 , result);
+
+        current = DateUtil.getDateByMonth(2021, 4);
+        result = instance.getEducationValueByMonth(current);
+        assertEquals(EducationEvent.VALUE_ELEMENTARY_PUBLIC*3, result);
+
+        current = DateUtil.getDateByMonth(2022, 4);
+        result = instance.getEducationValueByMonth(current);
+        assertEquals(EducationEvent.VALUE_JUNIOR_PRIVATE*1 + EducationEvent.VALUE_ELEMENTARY_PUBLIC*2, result);
+
     }
 }
