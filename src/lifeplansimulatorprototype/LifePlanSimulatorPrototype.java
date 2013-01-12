@@ -14,6 +14,7 @@ import asia.furusawa.lps.model.LPSEvent;
 import asia.furusawa.lps.model.LifelineEvent;
 import asia.furusawa.lps.model.RentalHelpEvent;
 import asia.furusawa.lps.model.RentalHouseEvent;
+import asia.furusawa.lps.model.RentalQuitEvent;
 import asia.furusawa.lps.util.DateUtil;
 import java.util.List;
 import javafx.application.Application;
@@ -41,16 +42,17 @@ public class LifePlanSimulatorPrototype extends Application {
 
         Group root = new Group();
 
-        Scene scene = new Scene(root, 1280, 1024);
+        Scene scene = new Scene(root, 1600, 1024);
         TilePane tilePane = new TilePane();
         tilePane.setPrefColumns(3); //preferred columns
         tilePane.getChildren().add(createChart(false));
-        tilePane.getChildren().add(createChartHome25(false));
-        tilePane.getChildren().add(createChartHome15(false));
+        //tilePane.getChildren().add(createChartHome(25,false));
+        tilePane.getChildren().add(createChartHome(15,false));
+        tilePane.getChildren().add(createChartHomeRental(15,false));
         tilePane.getChildren().add(createChart(true));
-        tilePane.getChildren().add(createChartHome25(true));
-        tilePane.getChildren().add(createChartHome15(true));
-
+       //tilePane.getChildren().add(createChartHome(25,true));
+        tilePane.getChildren().add(createChartHome(15,true));
+       tilePane.getChildren().add(createChartHomeRental(15,true));
         root.getChildren().add(tilePane);
         scene.getStylesheets().add("lifeplansimulatorprototype/prototype.css");
         //scene.getStylesheets().add("prototype.css");
@@ -102,61 +104,18 @@ public class LifePlanSimulatorPrototype extends Application {
        // lc.getData().add(employmentSeries);
         return lc;
     }
-protected LineChart<Number, Number> createChartHome25(boolean isPrivate) {
-        final NumberAxis xAxis = new NumberAxis("経過年",0,(1976+65-2013)*12,12);
-        
-        final NumberAxis yAxis = new NumberAxis();
-        final LineChart<Number, Number> lc = new LineChart<>(xAxis, yAxis);
-        // setup chart
-        if(isPrivate){
-                    lc.setTitle("資産推移グラフ(25年返済)+私立");
-        }
-        else {
-                    lc.setTitle("資産推移グラフ(25年返済)");
-        }
 
-        lc.setCreateSymbols(false);
-       //lineChart.setStyle(".default-color0.chart-series-line { -fx-stroke: #f0e68c; }");
-        //chart-series-line { -fx-stroke: green; -fx-stroke-width: 4px;}
-        //lc.setStyle(".chart-series-line {-fx-stroke-width: 2px; -fx-effect: null;}");
-        //xAxis.setLabel();
-        yAxis.setLabel("円");
-//        yAxis.setAutoRanging(false);
-//        yAxis.setUpperBound(60000000);
-//        yAxis.setTickUnit(1000000);
-        // add starting data
-        XYChart.Series<Number, Number> series = new XYChart.Series<>();
-        series.setName("現金");
-        XYChart.Series<Number, Number> homeSeries = new XYChart.Series<>();
-        homeSeries.setName("住宅ローン総額");
-      //    XYChart.Series<Number, Number> employmentSeries = new XYChart.Series<>();
-       // employmentSeries.setName("給与総額");
-      
-        int totalCount = 0;
-        List<CapitalSummaryTrack> tracks = createTestSummariesHome(25,isPrivate);
-        for(CapitalSummaryTrack e: tracks){
-            series.getData().add(new XYChart.Data<Number, Number>(totalCount, e.getAssetCash()));
-            homeSeries.getData().add(new XYChart.Data<Number, Number>(totalCount, e.getCommulativeHouseLoan()));
-            //employmentSeries.getData().add(new XYChart.Data<Number, Number>(totalCount, e.getCommulativeSalary()));
-            totalCount++;  
-        }
-        //lc.setStyle("-fx-stroke-width: 1");
-        lc.getData().add(series);
-        lc.getData().add(homeSeries);
-       // lc.getData().add(employmentSeries);
-        return lc;
-    }
-protected LineChart<Number, Number> createChartHome15(boolean isPrivate) {
+protected LineChart<Number, Number> createChartHome(int loanPaymentYear,boolean isPrivate) {
         final NumberAxis xAxis = new NumberAxis("経過年",0,(1976+65-2013)*12,12);
         
         final NumberAxis yAxis = new NumberAxis();
         final LineChart<Number, Number> lc = new LineChart<>(xAxis, yAxis);
         // setup chart
         if (isPrivate){
-            lc.setTitle("資産推移グラフ(15年返済)+私立");            
+            lc.setTitle("資産推移グラフ("+loanPaymentYear+"年返済)+私立");            
         }
         else {
-            lc.setTitle("資産推移グラフ(15年返済)");            
+            lc.setTitle("資産推移グラフ("+loanPaymentYear+"年返済)");            
         }
 
         lc.setCreateSymbols(false);
@@ -177,7 +136,7 @@ protected LineChart<Number, Number> createChartHome15(boolean isPrivate) {
       //  employmentSeries.setName("給与総額");
       
         int totalCount = 0;
-        List<CapitalSummaryTrack> tracks = createTestSummariesHome(15,isPrivate);
+        List<CapitalSummaryTrack> tracks = createTestSummariesHome(loanPaymentYear,isPrivate);
         for(CapitalSummaryTrack e: tracks){
             series.getData().add(new XYChart.Data<Number, Number>(totalCount, e.getAssetCash()));
             homeSeries.getData().add(new XYChart.Data<Number, Number>(totalCount, e.getCommulativeHouseLoan()));
@@ -212,7 +171,8 @@ protected LineChart<Number, Number> createChartHome15(boolean isPrivate) {
         simulator.addLPSEvent(event);
         event = new RentalHelpEvent(DateUtil.getDateByMonth(2013, 1));
         simulator.addLPSEvent(event);
-        event = new RentalHouseEvent(DateUtil.getDateByMonth(2013, 3));
+        event = new RentalHouseEvent(DateUtil.getDateByMonth(2013, 1));
+        ((RentalHouseEvent) event).setRentalHouseValue(160000);
         simulator.addLPSEvent(event);
         
         event = new RetirementEvent(DateUtil.getDateByMonth(2013+65-36, 11));
@@ -235,7 +195,7 @@ protected LineChart<Number, Number> createChartHome15(boolean isPrivate) {
         //simulator.addLPSEvent(event);
         //event = new RentalHouseEvent(DateUtil.getDateByMonth(2013, 3));
         //simulator.addLPSEvent(event);
-        event  = new HouseLoanEvent(DateUtil.getDateByMonth(2013, 1), HouseLoanEvent.LoanType.EQUAL_BODY, 4200*10000, 2.675/100, paymentInterval);
+        event  = new HouseLoanEvent(DateUtil.getDateByMonth(2013, 1), HouseLoanEvent.LoanType.EQUAL_BODY, 5200*10000, 2.675/100, paymentInterval);
         simulator.addLPSEvent(event);
         event = new RetirementEvent(DateUtil.getDateByMonth(2013+65-36, 11));
         simulator.addLPSEvent(event);
@@ -247,5 +207,75 @@ protected LineChart<Number, Number> createChartHome15(boolean isPrivate) {
         simulator.addLPSEvent(event);
         return simulator.simulate();           
     }
+    private List<CapitalSummaryTrack> createTestSummariesHomeRental(int paymentInterval,boolean isPrivate) {
+        CapitalSimulator simulator = new CapitalSimulator();
+        simulator.setDuration(DateUtil.getDateByMonth(2013, 1), DateUtil.getDateByMonth(2013+36, 1)); // 6 months
+        LPSEvent event = new EmploymentEvent(DateUtil.getDateByMonth(2013, 1));
+        simulator.addLPSEvent(event);
+        event = new RentalHelpEvent(DateUtil.getDateByMonth(2013, 1));
+        simulator.addLPSEvent(event);
+        event = new RentalHouseEvent(DateUtil.getDateByMonth(2013, 1));
+        ((RentalHouseEvent) event).setRentalHouseValue(160000);        
+        simulator.addLPSEvent(event);
 
+        event = new RentalQuitEvent(DateUtil.getDateByMonth(2016, 11));
+        simulator.addLPSEvent(event);
+
+        
+        event  = new HouseLoanEvent(DateUtil.getDateByMonth(2016, 11), HouseLoanEvent.LoanType.EQUAL_BODY, 5200*10000, 2.675/100, paymentInterval);
+        simulator.addLPSEvent(event);
+        event = new RetirementEvent(DateUtil.getDateByMonth(2013+65-36, 11));
+        simulator.addLPSEvent(event);
+
+        event = new LifelineEvent(DateUtil.getDateByMonth(2013, 1));
+        simulator.addLPSEvent(event);
+
+        event = new EducationEvent(DateUtil.getDateByMonth(2013, 1),isPrivate);
+        simulator.addLPSEvent(event);
+        return simulator.simulate();           
+    }
+protected LineChart<Number, Number> createChartHomeRental(int loanPaymentYear,boolean isPrivate) {
+        final NumberAxis xAxis = new NumberAxis("経過年",0,(1976+65-2013)*12,12);
+        
+        final NumberAxis yAxis = new NumberAxis();
+        final LineChart<Number, Number> lc = new LineChart<>(xAxis, yAxis);
+        // setup chart
+        if (isPrivate){
+            lc.setTitle("資産推移グラフ("+loanPaymentYear+"年返済)+私立");            
+        }
+        else {
+            lc.setTitle("資産推移グラフ("+loanPaymentYear+"年返済)");            
+        }
+
+        lc.setCreateSymbols(false);
+       //lineChart.setStyle(".default-color0.chart-series-line { -fx-stroke: #f0e68c; }");
+        //chart-series-line { -fx-stroke: green; -fx-stroke-width: 4px;}
+        //lc.setStyle(".chart-series-line {-fx-stroke-width: 2px; -fx-effect: null;}");
+        //xAxis.setLabel();
+        yAxis.setLabel("円");
+//        yAxis.setAutoRanging(false);
+//        yAxis.setUpperBound(60000000);
+//        yAxis.setTickUnit(1000000);
+        // add starting data
+        XYChart.Series<Number, Number> series = new XYChart.Series<>();
+        series.setName("現金");
+        XYChart.Series<Number, Number> homeSeries = new XYChart.Series<>();
+        homeSeries.setName("住宅ローン総額");
+    //      XYChart.Series<Number, Number> employmentSeries = new XYChart.Series<>();
+      //  employmentSeries.setName("給与総額");
+      
+        int totalCount = 0;
+        List<CapitalSummaryTrack> tracks = createTestSummariesHomeRental(loanPaymentYear,isPrivate);
+        for(CapitalSummaryTrack e: tracks){
+            series.getData().add(new XYChart.Data<Number, Number>(totalCount, e.getAssetCash()));
+            homeSeries.getData().add(new XYChart.Data<Number, Number>(totalCount, e.getCommulativeHouseLoan()));
+           // employmentSeries.getData().add(new XYChart.Data<Number, Number>(totalCount, e.getCommulativeSalary()));
+            totalCount++;  
+        }
+        //lc.setStyle("-fx-stroke-width: 1");
+        lc.getData().add(series);
+        lc.getData().add(homeSeries);
+        //lc.getData().add(employmentSeries);
+        return lc;
+    }        
 }

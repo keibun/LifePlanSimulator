@@ -12,8 +12,8 @@ import java.util.Date;
  */
 public class RentalHouseEvent extends LPSEvent {
     private int renteHouseValue;
-    //public static final int OBERGE_RENTAL_HOUSE_VALUE = 126000;
-    public static final int OBERGE_RENTAL_HOUSE_VALUE = 160000;
+    public static final int OBERGE_RENTAL_HOUSE_VALUE = 126000;
+    //public static final int OBERGE_RENTAL_HOUSE_VALUE = 160000;
     public RentalHouseEvent(Date whenOccured){
         super(whenOccured);
         setRentalHouseValue(RentalHouseEvent.OBERGE_RENTAL_HOUSE_VALUE);
@@ -42,5 +42,7 @@ public class RentalHouseEvent extends LPSEvent {
     public void setRentalHouseValue(int renteHouseValue) {
         this.renteHouseValue = renteHouseValue;
     }
+
+
     
 }
