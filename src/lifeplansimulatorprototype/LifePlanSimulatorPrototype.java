@@ -18,6 +18,8 @@ import asia.furusawa.lps.model.RentalQuitEvent;
 import asia.furusawa.lps.util.DateUtil;
 import java.util.List;
 import javafx.application.Application;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
@@ -26,7 +28,13 @@ import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
+import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.TilePane;
+import javafx.scene.layout.VBox;
 
 import javafx.stage.Stage;
 
@@ -39,27 +47,76 @@ public class LifePlanSimulatorPrototype extends Application {
     @Override
     public void start(Stage primaryStage) {
 
+        //StackPane root = new StackPane();
 
-        Group root = new Group();
+        //Scene scene = new Scene(root, 1024, 768);
+        Scene scene = new Scene( new Group() );
+        
+        Label numberOfLoanPaymentLabel = new Label("Number of Loan Payment: ");
+        TextField numberOfLoanPaymentLabelText = new TextField();
+        numberOfLoanPaymentLabelText.setMaxSize(140, 20);
+        HBox formLoanHBox = new HBox();
+        formLoanHBox.getChildren().add(numberOfLoanPaymentLabel);
+        formLoanHBox.getChildren().add(numberOfLoanPaymentLabelText);
 
-        Scene scene = new Scene(root, 1600, 1024);
+        VBox formVBox = new VBox();
+        formVBox.getChildren().add(formLoanHBox);
+        
+        Label amountOfLoanPaymentLabel = new Label("Amount of Loan: ");
+        TextField amountOfLoanPaymentLabelText = new TextField();
+        amountOfLoanPaymentLabelText.setMaxSize(140, 20);
+
+        formLoanHBox = new HBox();
+        formLoanHBox.getChildren().add(amountOfLoanPaymentLabel);
+        formLoanHBox.getChildren().add(amountOfLoanPaymentLabelText);
+
+        formVBox.getChildren().add(formLoanHBox);
+        
+
+        ScrollPane sp = new ScrollPane();
+        //sp.setMaxHeight(Control.USE_PREF_SIZE);
+        //sp.setMaxWidth(Control.USE_PREF_SIZE);
+        VBox root = new VBox();
+ 
+        //lowerPart.setMaxWidth(Control.USE_PREF_SIZE);
+//        ListView<String> lvList = new ListView<>();
+//        lvList.setMaxHeight(Control.USE_PREF_SIZE);
+        root.getChildren().addAll(formVBox,sp);
+        //stackPane.getChildren().add(sp);
         TilePane tilePane = new TilePane();
+        sp.setContent(tilePane);
+        VBox.setVgrow(sp, Priority.ALWAYS);
+//        sp.setFitToHeight(false);
+//        sp.setFitToWidth(true);
+        //sp.setPrefSize(768, 512);
+
+        sp.setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+        sp.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
         tilePane.setPrefColumns(3); //preferred columns
         tilePane.getChildren().add(createChart(false));
-        //tilePane.getChildren().add(createChartHome(25,false));
+        tilePane.getChildren().add(createChartHome(25,false));
         tilePane.getChildren().add(createChartHome(15,false));
-        tilePane.getChildren().add(createChartHomeRental(15,false));
         tilePane.getChildren().add(createChart(true));
-       //tilePane.getChildren().add(createChartHome(25,true));
+        tilePane.getChildren().add(createChartHome(25,true));
         tilePane.getChildren().add(createChartHome(15,true));
-       tilePane.getChildren().add(createChartHomeRental(15,true));
-        root.getChildren().add(tilePane);
+
+sp.vvalueProperty().addListener(new ChangeListener<Number>(){
+
+            @Override
+            public void changed(ObservableValue<? extends Number> ov, Number oldval, Number newval) {
+                
+            }
+
+});        
+        
+        scene.setRoot(root);
         scene.getStylesheets().add("lifeplansimulatorprototype/prototype.css");
         //scene.getStylesheets().add("prototype.css");
         primaryStage.setTitle("資産シミュレーション");
         primaryStage.setScene(scene);
-        primaryStage.show();
-    }
+        primaryStage.setWidth(1024);
+        primaryStage.setHeight(768);
+        primaryStage.show();    }
     protected LineChart<Number, Number> createChart(boolean isPrivate) {
         final NumberAxis xAxis = new NumberAxis("経過年",0,(1976+65-2013)*12,12);
         
